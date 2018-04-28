@@ -1,0 +1,32 @@
+{
+  "name": "tradelink-auth",
+  "version": "1.0.0",
+  "description": "Authentication microservice for TradeLink.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon --exec \"npm run start-dev\"",
+    "start-dev": "env env=dev node app.js",
+    "test": "env env=test port=8083 mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-zdravkov/tradelink-auth.git"
+  },
+  "author": "Mihail Zdravkov",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/m-zdravkov/tradelink-auth/issues"
+  },
+  "homepage": "https://github.com/m-zdravkov/tradelink-auth#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.16",
+    "passport": "^0.4.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1",
+    "supertest": "^3.0.0"
+  }
+}

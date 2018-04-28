@@ -1,0 +1,10 @@
+{
+    "dbDev": {
+        "engine": "mongo",
+        "url": "mongodb://localhost/tradelink-auth-dev"
+    },
+    "dbTest": {
+        "engine": "mongo",
+        "url": "mongodb://localhost/tradelink-auth-test"
+    }
+}
