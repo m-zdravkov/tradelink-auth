@@ -10,22 +10,31 @@ module.exports = (app) => {
     // Connect to a mongoose database, depending on environment
     
     fs.readFile('./config/dbconfig.json', (err, data) => {
-        if(err)
-            return console.log(err);
+        if(err) {
+            console.log(err);
+            throw err;
+        }
 
         let dbConfig = JSON.parse(data);
-        let dbUrl = '';
+        let dbSetting = undefined;
 
         switch(app.environment) {
             default:
-            case 'dev': dbUrl = dbConfig.dbDev.url; break;
-            case 'test': dbUrl = dbConfig.dbTest.url; break;
+            case 'dev':
+                dbSetting = dbConfig.dbDev;
+                break;
+            case 'test':
+                dbSetting = dbConfig.dbTest;
+                break;
         }
 
-        mongoose.connect(dbUrl)
-        .then(() => console.log(`MongoDB connected @ ${dbUrl} ...`))
-        .catch(err => console.log(err));
+        if(dbSetting.engine === 'mongo') {
+            mongoose.connect(dbSetting.url)
+            .then(() => console.log(`MongoDB connected @ ${dbSetting.url} ...`))
+            .catch(err => console.log(err));
 
-        app.dbConnection = mongoose.connection;
+            app.dbConnection = mongoose.connection;
+        }else
+            throw new Error(`Unsupported database engine: ${dbSetting.engine}`);
     });
 };
