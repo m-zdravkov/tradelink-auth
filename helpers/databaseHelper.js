@@ -9,7 +9,7 @@ let fs = require('fs');
 module.exports = (app) => {
     // Connect to a mongoose database, depending on environment
     
-    fs.readFile('./dbconfig.json', (err, data) => {
+    fs.readFile('./config/dbconfig.json', (err, data) => {
         if(err)
             return console.log(err);
 

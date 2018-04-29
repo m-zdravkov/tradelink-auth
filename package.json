@@ -4,7 +4,8 @@
   "description": "Authentication microservice for TradeLink.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec \"npm run start-dev\"",
+    "start": "npm run echo-title && nodemon --exec \"npm run start-dev\"",
+    "echo-title": "echo \"[TradeLink-Auth service]~~~~~~~~~~~~~~~~\"",
     "start-dev": "env env=dev node app.js",
     "test": "env env=test port=8083 mocha"
   },
