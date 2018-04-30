@@ -1,6 +1,9 @@
 let express = require('express');
 let router = express.Router();
-let localController = require('./controllers/localController')();
+let Client = require('../models/Client');
+let crudRouter = require('./crudRouter.js')(Client);
+let localController = require('../controllers/localController')();
+// let passport = require('passport');
 
 // Erroneous routes
 router.get('/', (req, res) => {
@@ -8,20 +11,22 @@ router.get('/', (req, res) => {
        .send("Available routes: /auth and /register + ?method= (google,facebook, or local/no parameter).");
 });
 
+router.use('/clients', crudRouter);
+
 router.get('/login', (req, res) => {
     res.status(405)
-        .send("Can not GET on /login. Use POST.");
+        .send({"errmsg": "Can not GET on /login. Use POST."});
 });
 
 router.get('/register', (req, res) => {
     res.status(405)
-        .send("Can not GET on /register. Use POST.");
+        .send({"errmsg": "Can not GET on /register. Use POST."});
 });
 
 // For dev purposes
 let notImplemented = (res) => {
     let msg = "Login method not implemented yet.";
-    res.status(501).send({"errors" : {"text" : msg}});
+    res.status(501).send({"errmsg" : msg});
     console.log(msg);
     throw msg;
 }
@@ -30,7 +35,7 @@ router.post('/login', (req, res) => {
     switch(req.query.method) {
         default:
         case "local":
-            //local.login(req.email, req.password);    
+            local.login(req.email, req.password, next);    
             notImplemented(res);
             break;
         case "google":
@@ -61,16 +66,12 @@ router.post('/register', (req, res) => {
                 }else
                     res.status(201).send(client);
             });
-                // .then(res.status(201))
-                // .catch(err => {
-                //     res.status(403, {"errors": {"text" : "Could not register, got error message: "+err}});
-                // });
             break;
         case "google":
-            res.status(404).send("You can't create a google account here.");
+            res.status(404).send({"errormsg": "You can't create a google account from our services."});
             break;
         case "facebook":
-            res.status(404).send("You can't create a facebook account here.");
+            res.status(404).send({"errormsg": "You can't create a facebook account from our services."});
             break;
     }
 });

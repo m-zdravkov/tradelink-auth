@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 });
 
 // Routes middleware
-app.use('/', require('./router.js'));
+app.use('/', require('./routes/router.js'));
 
 // Start server
 if(app.environment !== 'test') {

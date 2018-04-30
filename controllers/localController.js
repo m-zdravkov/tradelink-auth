@@ -2,15 +2,16 @@ let passport = require('passport');
 let mongoose = require('mongoose');
 let Client = require('../models/Client');
 let bcrypt = require('bcryptjs');
+let passport = require('passport');
 
 /**
  * Controller for local authentication strategy
  */
 module.exports = () => {
     /**
-     * 
+     * Hashes a password.
      * @param {*} password 
-     * @param {*} callback 
+     * @param {(err: Error, hash: string) => {}} callback 
      */
     let hashPassword = (password, callback) => {
         bcrypt.genSalt(10, (err, salt) => {
@@ -20,6 +21,12 @@ module.exports = () => {
         });
     }
 
+    /**
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     * @param {(err: Error, client: Client) => {}} callback 
+     */
     let register = (email, password, callback) => {
         hashPassword(password, (err, hash) => {
             /**
@@ -40,12 +47,14 @@ module.exports = () => {
         });
     }
 
-    let login = () => {
+    /**
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     * @param {(err: Error, client: Client) => {}} callback 
+     */
+    let login = (email, password, callback) => {
 
-    }
-
-    let test = (txt, callback) => {
-        return callback(txt+" works");
     }
 
     return {
