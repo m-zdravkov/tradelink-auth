@@ -7,26 +7,41 @@ let bcrypt = require('bcryptjs');
  * Controller for local authentication strategy
  */
 module.exports = () => {
-    let register = (email, password, callback) => {
+    /**
+     * 
+     * @param {*} password 
+     * @param {*} callback 
+     */
+    let hashPassword = (password, callback) => {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(password, salt, (err, hash) => {
-                if(err)
-                    callback(err, null);
-                
-                let client = new Client({
-                    email: email,
-                    passwordHash: hash
-                });
-
-                client.save()
-                    .then(newClient => {
-                        callback(null, newClient);
-                    })
-                    .catch(err => {
-                        callback(err, null);
-                    });
+                callback(err, hash);
             });
-       }); 
+        });
+    }
+
+    let register = (email, password, callback) => {
+        hashPassword(password, (err, hash) => {
+            /**
+             * @type {Client}
+             */
+            let client = new Client({
+                email: email,
+                passwordHash: hash
+            });
+
+            client.save()
+                .then(newClient => {
+                    callback(null, newClient);
+                })
+                .catch(err => {
+                    callback(err, null);
+                });
+        });
+    }
+
+    let login = () => {
+
     }
 
     let test = (txt, callback) => {

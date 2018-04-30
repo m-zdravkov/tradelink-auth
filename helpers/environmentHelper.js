@@ -6,7 +6,8 @@ module.exports = (app) => {
     app.environment = 'dev'; // Assume 'dev' by default
 
     if( process.env.env !== '' &&
-        process.env.env !== 'undefined')
+        process.env.env !== undefined &&
+        process.env.evn !== null)
             app.environment = process.env.env;
 
     console.log(`App running in '${app.environment}' environment.`);
