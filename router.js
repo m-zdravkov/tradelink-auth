@@ -49,9 +49,16 @@ router.post('/register', (req, res) => {
         default:
         case "local":
             localController.register(req.body.email, req.body.password, (err, client) => {
-                if(err != null)
-                    res.status(500).send(err);
-                else
+                if(err != null) {
+                    if(err.code == 11000) {
+                        res.status(403).send(
+                            {
+                                "errmsg": "Duplicate email not allowed.",
+                                "client": {"email": req.body.email}
+                            });
+                    } else
+                        res.status(500).send(err);
+                }else
                     res.status(201).send(client);
             });
                 // .then(res.status(201))
